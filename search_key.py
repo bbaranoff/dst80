@@ -1,4 +1,5 @@
 import binascii
+import math, sys
 def bit(x,n): return (x>>n)&1
 
 def bit_slice(x,msb,lsb): return (x&((2<<msb)-1))>>lsb
@@ -105,34 +106,27 @@ assert(dst80(0,0,0xC212345678)==0xceea8f)
 assert(dst80(0xAAAAAAAAAA,0,0xC212345678)==0x28603a)
 assert(dst80(0,0xAAAAAAAAAA,0xC212345678)==0x953d0a)
 assert(dst80(0xAAAAAAAAAA,0xAAAAAAAAAA,0xC212345678)==0xc06085)
-
-def hex_typo(keyhexlist):
-    keyhex=[00,00,00,00,00]
-    for i in range(0,5):
-        keyhex=keyhex+keyhexlist[i]
-
-    mystr='0x'.join(keyhex)
-    return mystr
-
-def search_key(C, S):
-    sig=0
-    keyl=([0x00,0x00,0x00,0x00,0x00])
-    keyr=([0x00,0x00,0x00,0x00,0x00])
+def search_key(C, mysig):
+    keyl='0000000000'
+    keyr='0000000000'
+    sig=mysig
+    S=0
+    i=0
     # With C - Challenge; S - Signature
-    while (sig != S):
-	for i in range(0,2^24):
-            keyl[4] = keyr[0]
-            keyl[3] = keyr[1]
-            keyl[2] = keyr[2]
-            keyl[1] = 0x1a
-            keyl[0] = 0x1b
-	    keyr[4] = 0x2a
-            keyr[3] = 0x2b
-            keyr[2] = keyl[2]
-            keyr[1] = keyl[3]
-            keyr[0] = keyl[4]
-            sig = dst80(C,keyl), hex_typo(keyr))
-            if (sig == S):
-               printf(keyl)
-               return binascii.hexlify(keyl), binascii.hexlify(keyr)
-assert(search_key(0xC212345678,0xceea8f))
+    while (S != sig):
+        i=i+1
+        keyl=bytes.fromhex(keyl)
+        keyl=binascii.hexlify(keyl)
+        keyl=list(keyl)
+        keyr=bytes.fromhex(keyr)
+        keyr=binascii.hexlify(keyr)
+        keyr=list(keyr)
+        keyl=bytes(keyl)
+        keyr=bytes(keyr)
+        keyl=keyl.decode('ascii')
+        keyr=keyr.decode('ascii')
+        S=dst80(i,0,C)
+        S=hex(S)
+        print(i)
+
+search_key(0xC212345678,hex(dst80(0xFF,0,0xC212345678)))
