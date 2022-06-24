@@ -127,6 +127,6 @@ def search_key(C, mysig):
         keyr=keyr.decode('ascii')
         S=dst80(i,0,C)
         S=hex(S)
-        print(i)
+        print(hex(i))
 
 search_key(0xC212345678,hex(dst80(0xFF,0,0xC212345678)))
