@@ -116,9 +116,9 @@ def search_key(C, mysig):
     while (sig != S):
         i=i%255
         if(i==254):
-            j=j+1
+            j=(j+1)%255
         if(j==254):
-            k=k+1
+            k=(k+1)%255
         i=i+1
         keyl=bytes.fromhex(keyl)
         keyr=bytes.fromhex(keyr)
