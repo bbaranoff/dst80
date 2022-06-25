@@ -109,11 +109,10 @@ assert(dst80(0xAAAAAAAAAA,0xAAAAAAAAAA,0xC212345678)==0xc06085)
 def search_key(C, mysig):
     keyl='0000000000'
     keyr='0000000000'
-    sig=mysig
     S=0
     i,j,k=0,0,0
     # With C - Challenge; S - Signature
-    while (S == mysig):
+    while (S != mysig):
         i=i%255
         if(i==254):
             j=(j+1)%255
