@@ -111,9 +111,9 @@ def search_key(C, mysig):
     keyr='0000000000'
     sig=mysig
     S=0
-    i,j,k=0x75,0x6F,0x1E
+    i,j,k=0,0,0
     # With C - Challenge; S - Signature
-    while (S == 0):
+    while (S == mysig):
         i=i%255
         if(i==254):
             j=(j+1)%255
