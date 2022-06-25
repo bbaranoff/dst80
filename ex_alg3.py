@@ -127,7 +127,7 @@ def search_key(C, mysig):
         keyl[0],keyl[1],keyl[2]=i,j,k
         keyl[3],keyl[4]=0xaa,0xaa
         keyr[0],keyr[1]=0xaa,0xaa
-        keyr[2],keyr[3],keyr[4]=255-int(hex(k),16),255-int(hex(j),16),255-int(hex(i),16)
+        keyr[2],keyr[3],keyr[4]=255-k,255-j,255-i
         keyl=bytes(keyl)
         keyl=binascii.hexlify(keyl)
         keyr=bytes(keyr)
