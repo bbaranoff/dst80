@@ -111,23 +111,22 @@ def search_key(C, mysig):
     keyr='0000000000'
     sig=mysig
     S=0
-    i,j,k=0,0,0
+    i,j,k=0x75,0x6F,0x1E
     # With C - Challenge; S - Signature
-    while (sig != S):
+    while (S == 0):
         i=i%255
         if(i==254):
             j=(j+1)%255
         if(j==254):
             k=(k+1)%255
-        i=i+1
         keyl=bytes.fromhex(keyl)
         keyr=bytes.fromhex(keyr)
         keyl=list(keyl)
         keyr=list(keyr)
-        keyl[0],keyl[1],keyl[2]=k,j,i
+        keyl[0],keyl[1],keyl[2]=i,j,k
         keyl[3],keyl[4]=0xaa,0xaa
         keyr[0],keyr[1]=0xaa,0xaa
-        keyr[2],keyr[3],keyr[4]=keyl[2],keyl[1],keyl[0]
+        keyr[2],keyr[3],keyr[4]=255-int(hex(k),16),255-int(hex(j),16),255-int(hex(i),16)
         keyl=bytes(keyl)
         keyl=binascii.hexlify(keyl)
         keyr=bytes(keyr)
@@ -135,6 +134,7 @@ def search_key(C, mysig):
         keyl=keyl.decode('ascii')
         keyr=keyr.decode('ascii')
         S=dst80(int(keyl,16),int(keyr,16),C)
-        S=print(hex(S))
+        S=hex(S)
         print(keyl,keyr)
+        i=i+1
 search_key(0xC212345678,0xc06085)
